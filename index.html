@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+</head>
+
+<body>
+    <div class="container mx-auto">
+        <button class="border-4" id="btn-add">add</button>
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>firt-name</th>
+                    <th>last-name</th>
+                    <th>avata</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>name</th>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const users = await (await fetch('http://localhost:3000/users')).json()
+        console.log(users)
+        const usersList = document.querySelector('tbody')
+        if (usersList){
+            usersList.innerHTML=users.map(users => {
+                console.log(users)
+                return `
+                <tr>
+                <th>${users.id}</th>
+                <th>${users.firt_name}</th>
+                <th>${users.last_name}</th>  
+                <th><img class="max-w-[190px]" src="${users.avata}" alt=""></th>
+                <th>${users.email}</th>
+                <th>
+                    <button data-id="${users.id}" class="btn-delete">delete</button>
+                    <a href="" >detail</a>
+                </th>
+                </tr>
+
+                `
+            }).join("")
+        }
+        const deleteItem = document.querySelectorAll(".btn-delete")
+        if(deleteItem){
+             deleteItem.forEach((button)=>{
+                console.log(button)
+                button.addEventListener("click",async()=>{
+                    console.log(button.dataset.id)
+                    const usersId = button.dataset.id
+
+                    await fetch (`http://localhost:3000/users/${usersId}`,{
+                        method : "DELETE",
+                    })
+                })
+             })
+            
+           
+        }
+        const addUser = ()=>{
+            document.querySelector('body').innerHTML = `
+            <form>
+                <input id="userName" type="text" />
+                <input id="email" type="text" />
+                <input id="firstName" type="text" />
+                <input id="lastName" type="text" />
+                <button id="btn-submit">add</button>
+            </form>
+            `
+            document.querySelector('#btn-submit').addEventListener("click",()=>{
+                const newUser ={
+                    "name" :document.querySelector("#userName").value,
+                    "email" :document.querySelector("#email").value,
+                    "firstName" :document.querySelector("#firstName").value,
+                    "lastName" :document.querySelector("#lastName").value
+                }
+                fetch(`http://localhost:3000/users`,{
+                    method :"POST",
+                    headers :{
+                        "Content-Type" :"application/json"
+                    },
+                    body : JSON.stringify(newUser)
+
+                })
+            })
+        }
+        document.querySelector('#btn-add').addEventListener("click", addUser)
+    })
+
+</script>
+
+</html>

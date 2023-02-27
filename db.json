@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "thanhdo9xi@gmail.com",
+      "firt_name": "thanh",
+      "last_name": "do",
+      "avata": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Anime_Girl.svg/1024px-Anime_Girl.svg.png"
+    }
+  ]
+}
