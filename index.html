@@ -9,13 +9,15 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="container mx-auto">
         <button class="border-4" id="btn-add">add</button>
-        <table class="table w-full">
-            <thead>
+        <table class="table w-full table">
+            <thead class="text-center">
                 <tr>
                     <th>name</th>
                     <th>email</th>
@@ -45,14 +47,15 @@
                 console.log(users)
                 return `
                 <tr>
-                <th>${users.id}</th>
-                <th>${users.firt_name}</th>
-                <th>${users.last_name}</th>  
+               
+                <th>${users.name}</th>
+                <th>${users.email}</th>  
+                <th>${users.firt_name }</th>   
+                <th>${users.last_name}</th>                      
                 <th><img class="max-w-[190px]" src="${users.avata}" alt=""></th>
-                <th>${users.email}</th>
+                
                 <th>
-                    <button data-id="${users.id}" class="btn-delete">delete</button>
-                    <a href="" >detail</a>
+                    <button data-id="${users.id}" class="btn-delete border-2">delete</button>
                 </th>
                 </tr>
 
@@ -80,8 +83,9 @@
             <form>
                 <input id="userName" type="text" />
                 <input id="email" type="text" />
-                <input id="firstName" type="text" />
-                <input id="lastName" type="text" />
+                <input id="firt_name" type="text" />
+                <input id="last_name" type="text" />
+                <input id="avata" type="text" />
                 <button id="btn-submit">add</button>
             </form>
             `
@@ -89,8 +93,9 @@
                 const newUser ={
                     "name" :document.querySelector("#userName").value,
                     "email" :document.querySelector("#email").value,
-                    "firstName" :document.querySelector("#firstName").value,
-                    "lastName" :document.querySelector("#lastName").value
+                    "firt_name" :document.querySelector("#firt_name").value,
+                    "last_name" :document.querySelector("#last_name").value,
+                    "avata" :document.querySelector("#avata").value,
                 }
                 fetch(`http://localhost:3000/users`,{
                     method :"POST",
@@ -98,8 +103,8 @@
                         "Content-Type" :"application/json"
                     },
                     body : JSON.stringify(newUser)
-
                 })
+
             })
         }
         document.querySelector('#btn-add').addEventListener("click", addUser)
